@@ -1,0 +1,60 @@
+[1/5] cd /home/gabriel/digit_detection/person_detection/build/esp-idf/esptool_py && /home/gabriel/esp/idf-tools/python_env/idf5.4_py3.10_env/bin/python /home/gabriel/esp/idf/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/gabriel/digit_detection/person_detection/build/partition_table/partition-table.bin /home/gabriel/digit_detection/person_detection/build/person_detection.bin
+person_detection.bin binary size 0x79dc0 bytes. Smallest app partition is 0x300000 bytes. 0x286240 bytes (84%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] cd /home/gabriel/digit_detection/person_detection/build/bootloader/esp-idf/esptool_py && /home/gabriel/esp/idf-tools/python_env/idf5.4_py3.10_env/bin/python /home/gabriel/esp/idf/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /home/gabriel/digit_detection/person_detection/build/bootloader/bootloader.bin
+Bootloader binary size 0x6f50 bytes. 0xb0 bytes (1%) free.
+[2/3] cd /home/gabriel/esp/idf/esp-idf/components/esptool_py && /usr/bin/cmake -D IDF_PATH=/home/gabriel/esp/idf/esp-idf -D "SERIAL_TOOL=/home/gabriel/esp/idf-tools/python_env/idf5.4_py3.10_env/bin/python;;/home/gabriel/esp/idf/esp-idf/components/esptool_py/esptool/esptool.py;--chip;esp32" -D "SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args" -D WORKING_DIRECTORY=/home/gabriel/digit_detection/person_detection/build -P /home/gabriel/esp/idf/esp-idf/components/esptool_py/run_serial_tool.cmake
+esptool.py --chip esp32 -p /dev/ttyUSB0 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 4MB 0x1000 bootloader/bootloader.bin 0x10000 person_detection.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.8.dev4
+Serial port /dev/ttyUSB0
+Connecting....
+Chip is ESP32-D0WDQ6 (revision v1.1)
+Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
+Crystal is 40MHz
+MAC: fc:e8:c0:ce:53:d4
+Uploading stub...
+Running stub...
+Stub running...
+Changing baud rate to 460800
+Changed.
+Configuring flash size...
+Flash will be erased from 0x00001000 to 0x00007fff...
+Flash will be erased from 0x00010000 to 0x00089fff...
+Flash will be erased from 0x00008000 to 0x00008fff...
+SHA digest in image updated
+Compressed 28496 bytes to 17355...
+Writing at 0x00001000... (50 %)
+Writing at 0x00007a46... (100 %)
+Wrote 28496 bytes (17355 compressed) at 0x00001000 in 0.7 seconds (effective 327.6 kbit/s)...
+Hash of data verified.
+Compressed 499136 bytes to 339379...
+Writing at 0x00010000... (4 %)
+Writing at 0x0001d800... (9 %)
+Writing at 0x0002458a... (14 %)
+Writing at 0x000286a8... (19 %)
+Writing at 0x0002cb7a... (23 %)
+Writing at 0x00031864... (28 %)
+Writing at 0x00036b06... (33 %)
+Writing at 0x0003c2bc... (38 %)
+Writing at 0x00041290... (42 %)
+Writing at 0x000464b6... (47 %)
+Writing at 0x0004c910... (52 %)
+Writing at 0x00052bf6... (57 %)
+Writing at 0x00059027... (61 %)
+Writing at 0x000616a6... (66 %)
+Writing at 0x00065a0b... (71 %)
+Writing at 0x00069e63... (76 %)
+Writing at 0x0006e3a5... (80 %)
+Writing at 0x0007290a... (85 %)
+Writing at 0x0007a8f8... (90 %)
+Writing at 0x00080042... (95 %)
+Writing at 0x00085a48... (100 %)
+Wrote 499136 bytes (339379 compressed) at 0x00010000 in 7.8 seconds (effective 513.8 kbit/s)...
+Hash of data verified.
+Compressed 3072 bytes to 105...
+Writing at 0x00008000... (100 %)
+Wrote 3072 bytes (105 compressed) at 0x00008000 in 0.0 seconds (effective 653.1 kbit/s)...
+Hash of data verified.
+
+Leaving...
+Hard resetting via RTS pin...

@@ -1,0 +1,176 @@
+ets Jun  8 2016 00:22:57
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip:�b�A%]A�0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:1
+loX����fff0030,len:7524
+load:0x40078000,len:16552
+load:0x40080400,len:4
+loa����0080404,len:4312
+entry 0x4008065c
+[0;32mI (28) boot: ESP-IDF v5.4-dev-421-g4523f2d674 2nd stage bootloader[0m
+[0;32mI (28) boot: compile time Oct 25 2024 16:10:24[0m
+[0;32mI (30) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v1.1[0m
+[0;32mI (38) qio_mode: Enabling default flash chip QIO[0m
+[0;32mI (43) boot.esp32: SPI Speed      : 80MHz[0m
+[0;32mI (48) boot.esp32: SPI Mode       : QIO[0m
+[0;32mI (52) boot.esp32: SPI Flash Size : 4MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (62) boot: Partition Table:[0m
+[0;32mI (66) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (73) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (81) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (88) boot:  2 factory          factory app      00 00 00010000 00300000[0m
+[0;32mI (96) boot: End of partition table[0m
+[0;32mI (100) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=129c8h ( 76232) map[0m
+[0;32mI (128) esp_image: segment 1: paddr=000229f0 vaddr=3ffb0000 size=0d628h ( 54824) load[0m
+[0;32mI (144) esp_image: segment 2: paddr=00030020 vaddr=400d0020 size=325ach (206252) map[0m
+[0;32mI (197) esp_image: segment 3: paddr=000625d4 vaddr=3ffbd628 size=16d94h ( 93588) load[0m
+[0;32mI (223) esp_image: segment 4: paddr=00079370 vaddr=40080000 size=10a28h ( 68136) load[0m
+[0;32mI (261) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (261) boot: Disabling RNG early entropy source...[0m
+[0;32mI (273) cpu_start: Multicore app[0m
+[0;32mI (273) quad_psram: This chip is ESP32-D0WD[0m
+[0;32mI (273) esp_psram: Found 8MB PSRAM device[0m
+[0;32mI (275) esp_psram: Speed: 80MHz[0m
+[0;32mI (279) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.[0m
+[0;33mW (287) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped[0m
+[0;32mI (759) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (767) cpu_start: Pro cpu start user code[0m
+[0;32mI (767) cpu_start: cpu freq: 240000000 Hz[0m
+[0;32mI (767) app_init: Application information:[0m
+[0;32mI (770) app_init: Project name:     person_detection[0m
+[0;32mI (776) app_init: App version:      1[0m
+[0;32mI (780) app_init: Compile time:     Oct 25 2024 16:10:17[0m
+[0;32mI (786) app_init: ELF file SHA256:  153b6a529...[0m
+[0;32mI (791) app_init: ESP-IDF:          v5.4-dev-421-g4523f2d674[0m
+[0;32mI (798) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (802) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (807) efuse_init: Chip rev:         v1.1[0m
+[0;32mI (812) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (819) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (825) heap_init: At 3FFD51C8 len 0000AE38 (43 KiB): DRAM[0m
+[0;32mI (831) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (838) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (844) heap_init: At 40090A28 len 0000F5D8 (61 KiB): IRAM[0m
+[0;32mI (851) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator[0m
+[0;32mI (858) spi_flash: detected chip: generic[0m
+[0;32mI (863) spi_flash: flash io: qio[0m
+[0;33mW (867) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`[0m
+[0;32mI (878) main_task: Started on CPU0[0m
+[0;32mI (888) main_task: Calling app_main()[0m
+[0;32mI (888) gpio: GPIO[13]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (888) gpio: GPIO[14]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (898) gpio: GPIO[5]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:2 [0m
+[0;32mI (908) cam_hal: cam init ok[0m
+[0;32mI (908) sccb: pin_sda 18 pin_scl 23[0m
+[0;32mI (918) sccb: sccb_i2c_port=1[0m
+[0;31mE (928) camera: Camera probe failed with error 0x105(ESP_ERR_NOT_FOUND)[0m
+[0;31mE (928) app_camera: Camera init failed with error 0x105[0m
+Camera init failed
+
+InitCamera failed
+
+[0;31mE (938) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (2338) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (3728) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (5118) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (6508) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (7898) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (9288) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (10678) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (12068) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (13458) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (14848) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (16238) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (17628) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (19018) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (20408) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (21798) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (23188) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (24578) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (25968) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (27358) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (28748) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (30138) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (31528) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (32918) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (34308) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (35698) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (37088) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (38478) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (39868) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (41258) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (42648) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (44038) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (45428) app_camera: Camera capture failed[0m
+Image capture failed.
+Detected digit: okay
+[0;31mE (46818) app_camera: Camera capture failed[0m
+Image capture failed.

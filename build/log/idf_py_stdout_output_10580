@@ -1,0 +1,286 @@
+ets ��� 2016 00:22��SH�HH���0x1 	�]ERON_RESET),boot:0xL&B�A%}MQ}1M!}	==Q�
+configsip: 0, S�]A:0xee
+clk_dr����0,q_drv:0x00,�E�v:0x00,cs0_dr����0,hd_drv:0x00,w}��v:0x00
+mode:T�	�����div:1
+�+�:0x3fff0030,len:S��j
+load:0x40078��bb���16552
+�+��0x40080400����4
+load:0x40���blen:4312
+ent��0x4008065c
+[0;32mI (28) boot: ESP-IDF v5.4-dev-421-g4523f2d674 2nd stage bootloader[0m
+[0;32mI (28) boot: compile time Oct 25 2024 16:10:24[0m
+[0;32mI (30) boot: Multicore bootloader[0m
+[0;32mI (34) boot: chip revision: v1.1[0m
+[0;32mI (38) qio_mode: Enabling default flash chip QIO[0m
+[0;32mI (43) boot.esp32: SPI Speed      : 80MHz[0m
+[0;32mI (48) boot.esp32: SPI Mode       : QIO[0m
+[0;32mI (52) boot.esp32: SPI Flash Size : 4MB[0m
+[0;32mI (57) boot: Enabling RNG early entropy source...[0m
+[0;32mI (62) boot: Partition Table:[0m
+[0;32mI (66) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (73) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (81) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (88) boot:  2 factory          factory app      00 00 00010000 00300000[0m
+[0;32mI (96) boot: End of partition table[0m
+[0;32mI (100) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=129c8h ( 76232) map[0m
+[0;32mI (128) esp_image: segment 1: paddr=000229f0 vaddr=3ffb0000 size=0d628h ( 54824) load[0m
+[0;32mI (144) esp_image: segment 2: paddr=00030020 vaddr=400d0020 size=32580h (206208) map[0m
+[0;32mI (197) esp_image: segment 3: paddr=000625a8 vaddr=3ffbd628 size=0dec4h ( 57028) load[0m
+[0;32mI (213) esp_image: segment 4: paddr=00070474 vaddr=40080000 size=10a28h ( 68136) load[0m
+[0;32mI (249) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (249) boot: Disabling RNG early entropy source...[0m
+[0;32mI (260) cpu_start: Multicore app[0m
+[0;32mI (260) quad_psram: This chip is ESP32-D0WD[0m
+[0;32mI (261) esp_psram: Found 8MB PSRAM device[0m
+[0;32mI (263) esp_psram: Speed: 80MHz[0m
+[0;32mI (266) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.[0m
+[0;33mW (274) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped[0m
+[0;32mI (747) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (754) cpu_start: Pro cpu start user code[0m
+[0;32mI (754) cpu_start: cpu freq: 240000000 Hz[0m
+[0;32mI (754) app_init: Application information:[0m
+[0;32mI (757) app_init: Project name:     person_detection[0m
+[0;32mI (763) app_init: App version:      1[0m
+[0;32mI (767) app_init: Compile time:     Oct 25 2024 18:21:00[0m
+[0;32mI (773) app_init: ELF file SHA256:  db66a0763...[0m
+[0;32mI (779) app_init: ESP-IDF:          v5.4-dev-421-g4523f2d674[0m
+[0;32mI (785) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (790) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (795) efuse_init: Chip rev:         v1.1[0m
+[0;32mI (800) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (807) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (813) heap_init: At 3FFCC2F8 len 00013D08 (79 KiB): DRAM[0m
+[0;32mI (819) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (825) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (832) heap_init: At 40090A28 len 0000F5D8 (61 KiB): IRAM[0m
+[0;32mI (838) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator[0m
+[0;32mI (846) spi_flash: detected chip: generic[0m
+[0;32mI (850) spi_flash: flash io: qio[0m
+[0;33mW (854) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`[0m
+[0;32mI (865) main_task: Started on CPU0[0m
+[0;32mI (875) main_task: Calling app_main()[0m
+[0;32mI (875) gpio: GPIO[25]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:2 [0m
+[0;32mI (875) cam_hal: cam init ok[0m
+[0;32mI (885) sccb: pin_sda 26 pin_scl 27[0m
+[0;32mI (885) sccb: sccb_i2c_port=1[0m
+[0;32mI (885) gpio: GPIO[32]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (925) camera: Detected camera at address=0x30[0m
+[0;32mI (925) camera: Detected OV2640 camera[0m
+[0;32mI (925) camera: Camera PID=0x26 VER=0x42 MIDL=0x7f MIDH=0xa2[0m
+[0;32mI (995) esp32 ll_cam: node_size: 3072, nodes_per_line: 1, lines_per_node: 4, dma_half_buffer_min:  3072, dma_half_buffer: 12288,lines_per_half_buffer: 16, dma_buffer_size: 24576, image_size: 18432[0m
+[0;32mI (1005) cam_hal: buffer_size: 24576, half_buffer_size: 12288, node_buffer_size: 3072, node_cnt: 8, total_cnt: 1[0m
+[0;32mI (1015) cam_hal: Allocating 9216 Byte frame buffer in PSRAM[0m
+[0;32mI (1025) cam_hal: Allocating 9216 Byte frame buffer in PSRAM[0m
+[0;32mI (1025) cam_hal: cam config ok[0m
+[0;32mI (1035) ov2640: Set PLL: clk_2x: 0, clk_div: 3, pclk_auto: 1, pclk_div: 8[0m
+Camera Initialized
+
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: okay
+Image Captured
+
+Detected digit: fist
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+
+Detected digit: five
+Image Captured
+

@@ -1,0 +1,7 @@
+CMake Error at run_serial_tool.cmake:66 (message):
+  
+  /home/gabriel/esp/idf-tools/python_env/idf5.4_py3.10_env/bin/python;;/home/gabriel/esp/idf/esp-idf/components/esptool_py/esptool/esptool.py;--chip;esp32
+  failed.
+
+
+
