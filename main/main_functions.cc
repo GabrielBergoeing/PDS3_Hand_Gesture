@@ -74,7 +74,7 @@ static esp_err_t init_wifi()
 void recv_cb(const esp_now_recv_info_t *esp_now_info, const uint8_t *data, int data_len)
 {
     ESP_LOGI(TAG, "Data recieved " MACSTR " %s", MAC2STR(esp_now_info->src_addr), data);
-    ghost_busters = true;
+    // ghost_busters = true;
 }
 
 void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status)
