@@ -15,5 +15,5 @@ limitations under the License.
 
 #include "model_settings.h"
 
-const char* kCategoryLabels[kCategoryCount] = {"fist", "five", "okay", "peace", "rad", "thumbs"};
+const char* kCategoryLabels[kCategoryCount] = {"c", "fist", "five", "peace", "rad", "thumb"};
 

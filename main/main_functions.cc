@@ -16,6 +16,7 @@ limitations under the License.
 #include "main_functions.h"
 
 #include "detection_responder.h"
+#include "esp_err.h"
 #include "image_provider.h"
 #include "model_settings.h"
 #include "person_detect_model_data.h"
@@ -28,11 +29,94 @@ limitations under the License.
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
+#include <cstdint>
 #include <esp_heap_caps.h>
 #include <esp_timer.h>
 #include <esp_log.h>
 #include "esp_main.h"
+#include "esp_psram.h"
 
+#include "esp_event.h"
+#include "esp_netif.h"
+#include "esp_wifi.h"
+#include "esp_mac.h"
+#include "esp_now.h"
+#include "nvs_flash.h"
+
+#define BUF_SIZE (1024)
+
+// ESP NOW =================================================================== ESP NOW
+#define ESP_CHANNEL 0
+
+static bool ghost_busters = false;
+
+// esp32 feather mac address:   {0x30, 0xAE, 0xA4, 0x1B, 0x93, 0xF4}
+// esp32 cam mac address:       {0xFC, 0xE8, 0xC0, 0xCE, 0x53, 0xD4}
+static uint8_t peer_mac [ESP_NOW_ETH_ALEN] = {0x30, 0xAE, 0xA4, 0x1B, 0x93, 0xF4};
+
+static const char* TAG = "esp_now_cam";
+
+static esp_err_t init_wifi()
+{
+    wifi_init_config_t wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
+    esp_netif_init();
+    esp_event_loop_create_default();
+    nvs_flash_init();
+    esp_wifi_init(&wifi_init_config);
+    esp_wifi_set_mode(WIFI_MODE_STA);
+    esp_wifi_set_storage(WIFI_STORAGE_FLASH);
+    esp_wifi_start();
+
+    ESP_LOGI(TAG, "wifi init completed");
+    return ESP_OK;
+}
+
+void recv_cb(const esp_now_recv_info_t *esp_now_info, const uint8_t *data, int data_len)
+{
+    ESP_LOGI(TAG, "Data recieved " MACSTR " %s", MAC2STR(esp_now_info->src_addr), data);
+    ghost_busters = true;
+}
+
+void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status)
+{
+    if (status == ESP_NOW_SEND_SUCCESS)
+    {
+        ESP_LOGI(TAG, "ESP_NOW_SEND_SUCCESS");
+    }
+    else
+    {
+        ESP_LOGI(TAG, "ESP_NOW_SEND_FAIL");
+    }
+}
+
+static esp_err_t init_esp_now(void)
+{
+    esp_now_init();
+    esp_now_register_recv_cb(recv_cb);
+    esp_now_register_send_cb(send_cb);
+
+    ESP_LOGI(TAG, "esp now init completed");
+    return ESP_OK;
+}
+
+static esp_err_t register_peer(uint8_t *peer_addr)
+{
+    esp_now_peer_info_t esp_now_peer_info = {};
+    memcpy(esp_now_peer_info.peer_addr, peer_mac, ESP_NOW_ETH_ALEN);
+    // esp_now_peer_info.ifidx = WIFI_IF_STA;
+    esp_now_peer_info.channel = ESP_CHANNEL;
+
+    esp_now_add_peer(&esp_now_peer_info);
+    return ESP_OK;
+}
+
+static esp_err_t esp_now_send_data(const uint8_t *peer_addr, uint8_t *data, size_t len)
+{
+    esp_now_send(peer_addr, data, len);
+    return ESP_OK;
+}
+
+// ESP NOW =================================================================== ESP NOW
 
 // Globals, used for compatibility with Arduino-style sketches.
 namespace {
@@ -53,12 +137,22 @@ constexpr int scratchBufSize = 40 * 1024;
 constexpr int scratchBufSize = 0;
 #endif
 // An area of memory to use for input, output, and intermediate arrays.
-constexpr int kTensorArenaSize = 725 * 1024 + scratchBufSize;
+constexpr int kTensorArenaSize = 560 * 1024 + scratchBufSize;
 static uint8_t *tensor_arena;//[kTensorArenaSize]; // Maybe we should move this to external
 }  // namespace
 
 // The name of this function is important for Arduino compatibility.
 void setup() {
+  if (esp_psram_get_size() == 0) {
+    ESP_LOGE(TAG, "PSRAM not found");
+    return;
+  }
+
+  // ESPNOW
+  ESP_ERROR_CHECK(init_wifi());
+  ESP_ERROR_CHECK(init_esp_now());
+  ESP_ERROR_CHECK(register_peer(peer_mac));
+
   // Map the model into a usable data structure. This doesn't involve any
   // copying or parsing, it's a very lightweight operation.
   model = tflite::GetModel(g_person_detect_model_data);
@@ -67,8 +161,6 @@ void setup() {
                 "version %d.", model->version(), TFLITE_SCHEMA_VERSION);
     return;
   }
-
-
 
   if (tensor_arena == NULL) {
     tensor_arena = (uint8_t *) heap_caps_malloc(kTensorArenaSize, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
@@ -86,16 +178,19 @@ void setup() {
   //
   // tflite::AllOpsResolver resolver;
   // NOLINTNEXTLINE(runtime-global-variables)
-  static tflite::MicroMutableOpResolver<9> micro_op_resolver;
+  static tflite::MicroMutableOpResolver<11> micro_op_resolver;
   micro_op_resolver.AddQuantize();
   micro_op_resolver.AddReshape();
   micro_op_resolver.AddFullyConnected(); // Add ops used in MNIST model
   micro_op_resolver.AddSoftmax();
   micro_op_resolver.AddDequantize();
-  micro_op_resolver.AddAveragePool2D();
+  micro_op_resolver.AddMean();
   micro_op_resolver.AddConv2D();
   micro_op_resolver.AddDepthwiseConv2D();
   micro_op_resolver.AddMaxPool2D();
+  micro_op_resolver.AddMul();
+  micro_op_resolver.AddAdd();
+
   // Build an interpreter to run the model with.
   // NOLINTNEXTLINE(runtime-global-variables)
   static tflite::MicroInterpreter static_interpreter(
@@ -125,27 +220,45 @@ void setup() {
 #ifndef CLI_ONLY_INFERENCE
 // The name of this function is important for Arduino compatibility.
 void loop() {
-  // Get image from provider.
-  if (kTfLiteOk != GetImage(kNumCols, kNumRows, kNumChannels, input->data.int8)) {
-    MicroPrintf("Image capture failed.");
+  if (ghost_busters) {
+    vTaskDelay(7000 / portTICK_PERIOD_MS);
+  uint8_t buffer[5];
+  
+  // Run inference for 5 hand gesture detections
+    int gesture_count = 0;
+    while (gesture_count < 5) {
+
+        // Get image from provider
+        if (kTfLiteOk != GetImage(kNumCols, kNumRows, kNumChannels, input->data.int8)) {
+            MicroPrintf("Image capture failed.");
+            continue; // Skip to next iteration if capture fails
+        }
+
+        // Run inference
+        if (kTfLiteOk != interpreter->Invoke()) {
+            MicroPrintf("Invoke failed.");
+            continue; // Skip to next iteration if inference fails
+        }
+
+        // Process the inference results
+        TfLiteTensor* output = interpreter->output(0);
+        float digit_scores[kCategoryCount];
+        for (int i = 0; i < kCategoryCount; ++i) {
+            digit_scores[i] = output->data.f[i];
+        }
+
+        // Respond to detection (e.g., log detected gesture)
+        buffer[gesture_count] = RespondToDetection(digit_scores, kCategoryLabels);
+
+        // Increment the gesture count after each detection
+        gesture_count++;
+        vTaskDelay(1); // Short delay to avoid watchdog trigger
+
+    }
+    uint8_t tmp[5] = {1, 1, 1, 1, 1};
+    esp_now_send_data(peer_mac, tmp, 32);
+    ghost_busters = false;
   }
-
-  // Run the model on this input and make sure it succeeds.
-  if (kTfLiteOk != interpreter->Invoke()) {
-    MicroPrintf("Invoke failed.");
-  }
-
-  TfLiteTensor* output = interpreter->output(0);
-
-  // Process the inference results.
-  float digit_scores[kCategoryCount];
-  for (int i = 0; i < kCategoryCount; ++i) {
-    digit_scores[i] = output->data.f[i];
-  }
-
-  // Respond to detection
-  RespondToDetection(digit_scores, kCategoryLabels);
-  vTaskDelay(1); // to avoid watchdog trigger
 }
 #endif
 
@@ -166,7 +279,6 @@ void run_inference(void *ptr) {
   uint8_t* uint8_ptr = (uint8_t*) ptr;
   for (int i = 0; i < kNumCols * kNumRows; i++) {
     input->data.f[i] = (float(uint8_ptr[i]) / 127.5) - 1;
-    printf("%f, ", input->data.f[i]);
   }
   printf("\n");
 
@@ -200,13 +312,10 @@ void run_inference(void *ptr) {
 
   TfLiteTensor* output = interpreter->output(0);
   
-  printf("Input type: %s\n", TfLiteTypeGetName(input->type));
-  printf("Output type: %s\n", TfLiteTypeGetName(output->type));
-
   // Process the inference results.
   float digit_scores[kCategoryCount];
   for (int i = 0; i < kCategoryCount; ++i) {
-    MicroPrintf("Output[%d]: %f", i, output->data.f[i]);
+    MicroPrintf("Seña \"%s\": %0.2f%%", kCategoryLabels[i], output->data.f[i]*100);
     digit_scores[i] = output->data.f[i];
   }
   

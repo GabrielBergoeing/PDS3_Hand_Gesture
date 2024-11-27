@@ -58,7 +58,7 @@ static void create_gui(void)
 }
 #endif // DISPLAY_SUPPORT
 
-void RespondToDetection(float* digit_score, const char* kCategoryLabels[]) {
+int RespondToDetection(float* digit_score, const char* kCategoryLabels[]) {
   // Find the digit with the highest score.
   float max_score = 0;
   int max_score_index = 0;
@@ -70,5 +70,6 @@ void RespondToDetection(float* digit_score, const char* kCategoryLabels[]) {
   }
 
   // Log the detected digit.
-  MicroPrintf("Detected digit: %s", kCategoryLabels[max_score_index]);
+  MicroPrintf("\nSeña detectada: %s", kCategoryLabels[max_score_index]);
+  return max_score_index;
 }
